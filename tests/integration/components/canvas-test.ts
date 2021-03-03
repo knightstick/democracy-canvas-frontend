@@ -8,6 +8,6 @@ module('Integration | Component | canvas', function(hooks) {
 
   test('it renders', async function(assert) {
     await render(hbs`<Canvas />`);
-    assert.dom('h1').hasText('Hello World!');
+    assert.dom('canvas').exists();
   });
 });
