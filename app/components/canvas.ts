@@ -12,20 +12,36 @@ const Colours = [
 export default class Canvas extends Component<CanvasArgs> {
   canvasElement?: HTMLCanvasElement;
 
+  randomNumber(max: number) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  renderSquare(x: number, y: number, color: any, size: number) {
+    const ctx = this.canvasElement?.getContext('2d')!;
+
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, size, size)
+  }
+
+  @action
+  drawRandomRectangle() {
+    const color = Colours[this.randomNumber(3)];
+    this.renderSquare(this.randomNumber(100),this.randomNumber(100), color,this.randomNumber(200))
+  }
+
   @action
   renderCanvas(element: HTMLCanvasElement) {
     this.canvasElement = element;
   }
 
-  randomNumber(max: number) {
-    return Math.floor(Math.random() * Math.floor(max));
-  }
-
   @action
-  renderRectangle() {
-    const ctx = this.canvasElement?.getContext('2d')!;
+  drawRectangle(mouseEvent: MouseEvent) {
+    const color = Colours[this.randomNumber(3)];
 
-    ctx.fillStyle = Colours[this.randomNumber(3)];
-    ctx.fillRect(this.randomNumber(100),this.randomNumber(100),this.randomNumber(200), this.randomNumber(150))
+    const x = mouseEvent.clientX - (this.canvasElement?.offsetLeft || 0);
+    const y = mouseEvent.clientY - (this.canvasElement?.offsetTop || 0);
+    const size = this.randomNumber(200);
+
+    this.renderSquare(x, y, color, size);
   }
 }
