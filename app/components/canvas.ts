@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 interface CanvasArgs {
 }
 
@@ -11,6 +12,7 @@ const Colours = [
 
 export default class Canvas extends Component<CanvasArgs> {
   canvasElement?: HTMLCanvasElement;
+  @tracked isDrawing = false;
 
   randomNumber(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -30,18 +32,30 @@ export default class Canvas extends Component<CanvasArgs> {
   }
 
   @action
-  renderCanvas(element: HTMLCanvasElement) {
-    this.canvasElement = element;
+  startDrawing() {
+    this.isDrawing = true;
   }
 
   @action
-  drawRectangle(mouseEvent: MouseEvent) {
-    const color = Colours[this.randomNumber(3)];
+  keepDrawing(mouseEvent: MouseEvent) {
+    if (this.isDrawing) {
+      const color = 'green';
 
-    const x = mouseEvent.clientX - (this.canvasElement?.offsetLeft || 0);
-    const y = mouseEvent.clientY - (this.canvasElement?.offsetTop || 0);
-    const size = this.randomNumber(200);
+      const x = mouseEvent.clientX - (this.canvasElement?.offsetLeft || 0);
+      const y = mouseEvent.clientY - (this.canvasElement?.offsetTop || 0);
+      const size = 1;
 
-    this.renderSquare(x, y, color, size);
+      this.renderSquare(x, y, color, size);
+    }
+  }
+
+  @action
+  stopDrawing() {
+    this.isDrawing = false;
+  }
+
+  @action
+  renderCanvas(element: HTMLCanvasElement) {
+    this.canvasElement = element;
   }
 }
