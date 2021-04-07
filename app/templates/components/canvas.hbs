@@ -1,3 +1,4 @@
 <canvas {{did-insert this.renderCanvas}} {{on "mousedown" this.startDrawing}} {{on "mouseleave" this.stopDrawing}}
   {{on "mousemove" this.keepDrawing}} {{on "mouseup" this.stopDrawing}} />
 <button type="button" {{on "click" this.drawRandomRectangle}}>Draw a rectangle!</button>
+<button type="button" {{on "click" this.drawRandomLine}}>Draw a line!</button>
